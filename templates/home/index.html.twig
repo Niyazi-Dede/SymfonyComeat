@@ -1,0 +1,151 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Comeat - Accueil{% endblock %}
+
+{% block hero %}
+<section style="
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 60%, #1a8cd8 100%);
+    padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
+">
+    <!-- Decorative circles -->
+    <div style="
+        position: absolute; top: -60px; right: -60px;
+        width: 320px; height: 320px;
+        border-radius: 50%;
+        background: rgba(15, 252, 190, 0.12);
+        pointer-events: none;
+    "></div>
+    <div style="
+        position: absolute; bottom: -80px; left: 10%;
+        width: 200px; height: 200px;
+        border-radius: 50%;
+        background: rgba(15, 252, 190, 0.08);
+        pointer-events: none;
+    "></div>
+
+    <div style="max-width: 1400px; margin: 0 auto; position: relative; z-index: 1;">
+        <div style="max-width: 640px;">
+            <span style="
+                display: inline-block;
+                background: rgba(15, 252, 190, 0.2);
+                color: #0FFCBE;
+                font-size: 0.78rem;
+                font-weight: 700;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                padding: 0.35rem 0.9rem;
+                border-radius: 100px;
+                margin-bottom: 1.25rem;
+                border: 1px solid rgba(15, 252, 190, 0.35);
+            ">Marketplace alimentaire</span>
+
+            <h1 style="
+                font-size: clamp(2rem, 5vw, 3.25rem);
+                font-weight: 800;
+                color: #ffffff;
+                line-height: 1.15;
+                margin-bottom: 1.25rem;
+                letter-spacing: -0.03em;
+            ">
+                Découvrez les<br>
+                meilleures <span style="color: #0FFCBE;">saveurs</span>
+            </h1>
+
+            <p style="
+                font-size: 1.05rem;
+                color: rgba(255,255,255,0.75);
+                margin-bottom: 2rem;
+                max-width: 480px;
+                line-height: 1.7;
+            ">
+                Des produits soigneusement sélectionnés, livrés directement chez vous. Qualité, fraîcheur et simplicité.
+            </p>
+
+            <a href="{{ path('app_categories') }}" class="btn btn-accent" style="padding: 0.875rem 2.25rem; font-size: 1rem;">
+                Explorer les catégories
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block body %}
+    {% if categories|length > 0 %}
+        <div style="margin-bottom: 3.5rem;">
+            <div class="section-header">
+                <h2>Catégories</h2>
+                <div class="section-line"></div>
+                <a href="{{ path('app_categories') }}" style="font-size: 0.85rem; font-weight: 600; color: var(--primary); text-decoration: none; white-space: nowrap;">Voir tout &rarr;</a>
+            </div>
+
+            <div class="grid-4">
+                {% for category in categories|slice(0, 4) %}
+                    <a href="{{ path('app_category_show', {id: category.id}) }}" style="text-decoration: none;" class="card">
+                        <div style="
+                            height: 6px;
+                            background: linear-gradient(90deg, var(--primary), #0FFCBE);
+                        "></div>
+                        <div style="padding: 1.5rem; text-align: center;">
+                            <div style="
+                                width: 52px; height: 52px;
+                                background: var(--primary-light);
+                                border-radius: 14px;
+                                display: flex; align-items: center; justify-content: center;
+                                margin: 0 auto 1rem;
+                                font-size: 1.35rem;
+                                font-weight: 800;
+                                color: var(--primary);
+                            ">{{ category.name|slice(0, 1)|upper }}</div>
+                            <div class="card-title" style="font-size: 1rem; margin-bottom: 0.4rem;">{{ category.name }}</div>
+                            {% if category.description %}
+                                <p class="card-text" style="font-size: 0.8rem;">{{ category.description|slice(0, 55) }}{% if category.description|length > 55 %}…{% endif %}</p>
+                            {% endif %}
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div>
+        <div class="section-header">
+            <h2>Derniers produits</h2>
+            <div class="section-line"></div>
+        </div>
+
+        {% if products|length > 0 %}
+            <div class="grid-4">
+                {% for product in products %}
+                    <div class="card">
+                        <div class="card-img">
+                            {{ product.name|slice(0, 1)|upper }}
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">{{ product.name }}</h3>
+                            <div class="price-badge">{{ product.price }} €</div>
+                            {% if product.description %}
+                                <p class="card-text">{{ product.description|slice(0, 75) }}{% if product.description|length > 75 %}…{% endif %}</p>
+                            {% endif %}
+                            <a href="{{ path('app_product_show', {id: product.id}) }}" class="btn btn-primary" style="margin-top: 1rem; width: 100%; font-size: 0.875rem; padding: 0.6rem 1rem;">
+                                Voir le produit
+                            </a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div style="
+                text-align: center;
+                padding: 4rem 2rem;
+                background: var(--bg-card);
+                border-radius: 14px;
+                border: 1px dashed var(--border);
+            ">
+                <div style="font-size: 2.5rem; margin-bottom: 1rem;">🛒</div>
+                <p style="color: var(--text-secondary); font-size: 0.95rem;">Aucun produit disponible pour le moment.</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.name }} - Comeat{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .detail-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .detail-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .detail-value {
+            color: #666;
+        }
+
+        .badge-id {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background-color: #e9ecef;
+            color: #495057;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="detail-container">
+        <div style="margin-bottom: 1.5rem;">
+            <a href="{{ path('app_category_index') }}" style="color: #0066c0; text-decoration: none;">&larr; Retour à la liste</a>
+        </div>
+
+        <div class="detail-header">
+            <h1 style="font-size: 2rem; font-weight: 700; color: #1a1a1a;">{{ category.name }}</h1>
+            <div class="detail-actions">
+                <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-primary" style="width: auto;">Éditer</a>
+            </div>
+        </div>
+
+        <div class="detail-card">
+            <div class="detail-row">
+                <div class="detail-label">ID</div>
+                <div class="detail-value"><span class="badge-id">#{{ category.id }}</span></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Nom</div>
+                <div class="detail-value">{{ category.name }}</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Description</div>
+                <div class="detail-value">{{ category.description ?? '-' }}</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Slug</div>
+                <div class="detail-value"><code style="background: #f8f9fa; padding: 0.25rem 0.5rem; border-radius: 4px;">{{ category.slug }}</code></div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Date de création</div>
+                <div class="detail-value">{{ category.createdAt ? category.createdAt|date('d/m/Y à H:i') : '-' }}</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Dernière modification</div>
+                <div class="detail-value">{{ category.updatedAt ? category.updatedAt|date('d/m/Y à H:i') : '-' }}</div>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem;">
+            <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-primary" style="width: auto;">Éditer cette catégorie</a>
+            {{ include('category/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

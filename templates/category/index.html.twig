@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des catégories - Comeat{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .admin-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+
+        .table-container {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table thead {
+            background-color: #f8f9fa;
+        }
+
+        .table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #1a1a1a;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table td {
+            padding: 1rem;
+            border-bottom: 1px solid #dee2e6;
+            color: #666;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-sm {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-view {
+            background-color: #0066c0;
+            color: white;
+        }
+
+        .btn-view:hover {
+            background-color: #004a8f;
+        }
+
+        .btn-edit {
+            background-color: #febd69;
+            color: #1a1a1a;
+        }
+
+        .btn-edit:hover {
+            background-color: #f3a847;
+        }
+
+        .btn-delete {
+            background-color: #d13212;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #a22a0f;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background-color: #e9ecef;
+            color: #495057;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="admin-header">
+        <h1 class="admin-title">Gestion des catégories</h1>
+        <a href="{{ path('app_category_new') }}" class="btn btn-primary" style="width: auto;">Créer une catégorie</a>
+    </div>
+
+    {% if categories|length > 0 %}
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Slug</th>
+                        <th>Créé le</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td><span class="badge">{{ category.id }}</span></td>
+                        <td><strong>{{ category.name }}</strong></td>
+                        <td>{{ category.description ? (category.description|slice(0, 50) ~ (category.description|length > 50 ? '...' : '')) : '-' }}</td>
+                        <td><code style="background: #f8f9fa; padding: 0.25rem 0.5rem; border-radius: 4px;">{{ category.slug }}</code></td>
+                        <td>{{ category.createdAt ? category.createdAt|date('d/m/Y') : '-' }}</td>
+                        <td>
+                            <div class="actions">
+                                <a href="{{ path('app_category_show', {'id': category.id}) }}" class="btn-sm btn-view">Voir</a>
+                                <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn-sm btn-edit">Éditer</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="table-container empty-state">
+            <p style="font-size: 1.25rem; margin-bottom: 1rem;">Aucune catégorie trouvée</p>
+            <a href="{{ path('app_category_new') }}" class="btn btn-primary" style="width: auto;">Créer la première catégorie</a>
+        </div>
+    {% endif %}
+{% endblock %}

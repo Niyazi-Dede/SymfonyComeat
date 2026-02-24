@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }} - Comeat{% endblock %}
+
+{% block body %}
+    {# Breadcrumb #}
+    <nav style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 2rem;">
+        <a href="{{ path('app_home') }}" style="color: var(--primary); text-decoration: none;">Accueil</a>
+        <span>/</span>
+        <a href="{{ path('app_categories') }}" style="color: var(--primary); text-decoration: none;">Catégories</a>
+        {% if product.categories|length > 0 %}
+            <span>/</span>
+            <a href="{{ path('app_category_show', {id: product.categories.first.id}) }}" style="color: var(--primary); text-decoration: none;">
+                {{ product.categories.first.name }}
+            </a>
+        {% endif %}
+        <span>/</span>
+        <span>{{ product.name }}</span>
+    </nav>
+
+    <div style="display: grid; grid-template-columns: 380px 1fr; gap: 3rem; align-items: start;">
+
+        {# Visuel produit #}
+        <div style="
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-elevated) 100%);
+            border-radius: 16px;
+            height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 7rem;
+            font-weight: 800;
+            color: var(--primary);
+            border: 1px solid var(--border);
+            letter-spacing: -0.03em;
+        ">
+            {{ product.name|slice(0, 1)|upper }}
+        </div>
+
+        {# Infos produit #}
+        <div>
+            {# Catégories #}
+            {% if product.categories|length > 0 %}
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    {% for category in product.categories %}
+                        <a href="{{ path('app_category_show', {id: category.id}) }}" style="
+                            display: inline-block;
+                            background: var(--primary-light);
+                            color: var(--primary);
+                            font-size: 0.75rem;
+                            font-weight: 700;
+                            letter-spacing: 0.06em;
+                            text-transform: uppercase;
+                            padding: 0.3rem 0.8rem;
+                            border-radius: 100px;
+                            text-decoration: none;
+                            transition: background 0.2s;
+                        ">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {# Nom #}
+            <h1 style="font-size: 2rem; font-weight: 800; color: var(--text-primary); line-height: 1.2; margin-bottom: 1.25rem; letter-spacing: -0.02em;">
+                {{ product.name }}
+            </h1>
+
+            {# Prix #}
+            <div style="
+                display: inline-flex;
+                align-items: baseline;
+                gap: 0.3rem;
+                background: var(--primary);
+                color: #fff;
+                padding: 0.6rem 1.5rem;
+                border-radius: 12px;
+                margin-bottom: 1.75rem;
+                box-shadow: 0 4px 14px rgba(16, 110, 190, 0.25);
+            ">
+                <span style="font-size: 2rem; font-weight: 800; line-height: 1;">{{ product.price }}</span>
+                <span style="font-size: 1.1rem; font-weight: 600; opacity: 0.85;">€</span>
+            </div>
+
+            {# Description #}
+            {% if product.description %}
+                <div style="
+                    font-size: 1rem;
+                    color: var(--text-secondary);
+                    line-height: 1.75;
+                    margin-bottom: 2rem;
+                    padding: 1.25rem 1.5rem;
+                    background: var(--bg-elevated);
+                    border-radius: 12px;
+                    border-left: 3px solid var(--primary);
+                ">
+                    {{ product.description }}
+                </div>
+            {% endif %}
+
+            {# Stock #}
+            <div style="margin-bottom: 2rem;">
+                {% if product.stock > 5 %}
+                    <span style="
+                        display: inline-flex; align-items: center; gap: 0.4rem;
+                        color: #065f46; background: #ecfdf5;
+                        padding: 0.4rem 1rem; border-radius: 8px;
+                        font-size: 0.875rem; font-weight: 600;
+                    ">
+                        <span style="width: 8px; height: 8px; background: #10b981; border-radius: 50%; display: inline-block;"></span>
+                        En stock — {{ product.stock }} disponibles
+                    </span>
+                {% elseif product.stock > 0 %}
+                    <span style="
+                        display: inline-flex; align-items: center; gap: 0.4rem;
+                        color: #92400e; background: #fffbeb;
+                        padding: 0.4rem 1rem; border-radius: 8px;
+                        font-size: 0.875rem; font-weight: 600;
+                    ">
+                        <span style="width: 8px; height: 8px; background: #f59e0b; border-radius: 50%; display: inline-block;"></span>
+                        Stock limité — plus que {{ product.stock }}
+                    </span>
+                {% else %}
+                    <span style="
+                        display: inline-flex; align-items: center; gap: 0.4rem;
+                        color: #991b1b; background: #fef2f2;
+                        padding: 0.4rem 1rem; border-radius: 8px;
+                        font-size: 0.875rem; font-weight: 600;
+                    ">
+                        <span style="width: 8px; height: 8px; background: #ef4444; border-radius: 50%; display: inline-block;"></span>
+                        Rupture de stock
+                    </span>
+                {% endif %}
+            </div>
+
+            {# Retour #}
+            {% if product.categories|length > 0 %}
+                <a href="{{ path('app_category_show', {id: product.categories.first.id}) }}" style="
+                    display: inline-flex; align-items: center; gap: 0.5rem;
+                    color: var(--text-secondary); font-size: 0.875rem; font-weight: 500;
+                    text-decoration: none; transition: color 0.2s;
+                " onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-secondary)'">
+                    &larr; Retour à {{ product.categories.first.name }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

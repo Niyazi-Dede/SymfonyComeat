@@ -1,10 +1,508 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Comeat - Marketplace du futur{% endblock %}</title>
         {% block stylesheets %}
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+            :root {
+                --primary: #106EBE;
+                --primary-dark: #0d5a9e;
+                --primary-light: #dbeeff;
+                --accent: #0FFCBE;
+                --accent-dark: #0bcc9c;
+                --success: #10b981;
+                --error: #ef4444;
+                --warning: #f59e0b;
+
+                --bg-main: #f4f7fb;
+                --bg-secondary: #ffffff;
+                --bg-card: #ffffff;
+                --bg-elevated: #eef3f9;
+
+                --text-primary: #0f172a;
+                --text-secondary: #475569;
+                --text-muted: #94a3b8;
+
+                --border: #dde3ec;
+                --shadow: rgba(16, 110, 190, 0.1);
+            }
+
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                line-height: 1.6;
+                color: var(--text-primary);
+                background: var(--bg-main);
+                min-height: 100vh;
+            }
+
+            /* ── Top bar ── */
+            .header-top {
+                background: var(--primary);
+                padding: 0.45rem 0;
+            }
+
+            .header-top-container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 0 2rem;
+                display: flex;
+                justify-content: flex-end;
+                gap: 2rem;
+                font-size: 0.8rem;
+            }
+
+            .header-top a,
+            .header-top span {
+                color: rgba(255, 255, 255, 0.88);
+                text-decoration: none;
+                font-weight: 500;
+                letter-spacing: 0.01em;
+                transition: color 0.2s ease;
+            }
+
+            .header-top a:hover {
+                color: var(--accent);
+            }
+
+            /* ── Navbar ── */
+            .header {
+                background: #ffffff;
+                border-bottom: 1px solid var(--border);
+                box-shadow: 0 2px 12px rgba(16, 110, 190, 0.07);
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .navbar {
+                padding: 1rem 0;
+            }
+
+            .navbar-container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 0 2rem;
+                display: flex;
+                align-items: center;
+                gap: 3rem;
+            }
+
+            .navbar-actions {
+                margin-left: auto;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            }
+
+            .navbar-actions .navbar-link {
+                font-size: 0.9rem;
+            }
+
+            .navbar-actions .btn-nav-cta {
+                padding: 0.5rem 1.2rem;
+                font-size: 0.875rem;
+                font-weight: 600;
+                background: var(--primary);
+                color: #ffffff;
+                border-radius: 8px;
+                text-decoration: none;
+                transition: all 0.2s ease;
+                box-shadow: 0 2px 8px rgba(16, 110, 190, 0.25);
+            }
+
+            .navbar-actions .btn-nav-cta:hover {
+                background: var(--primary-dark);
+                box-shadow: 0 4px 12px rgba(16, 110, 190, 0.35);
+                transform: translateY(-1px);
+            }
+
+            .navbar-brand {
+                font-size: 1.75rem;
+                font-weight: 800;
+                color: var(--primary);
+                text-decoration: none;
+                letter-spacing: -0.03em;
+                transition: opacity 0.2s ease;
+            }
+
+            .navbar-brand span {
+                color: var(--accent-dark);
+            }
+
+            .navbar-brand:hover {
+                opacity: 0.85;
+            }
+
+            .navbar-menu {
+                display: flex;
+                gap: 2rem;
+                list-style: none;
+            }
+
+            .navbar-link {
+                color: var(--text-secondary);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.95rem;
+                transition: color 0.2s ease;
+                position: relative;
+                padding-bottom: 4px;
+            }
+
+            .navbar-link::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: var(--primary);
+                border-radius: 2px;
+                transition: width 0.25s ease;
+            }
+
+            .navbar-link:hover {
+                color: var(--primary);
+            }
+
+            .navbar-link:hover::after {
+                width: 100%;
+            }
+
+            /* ── Container ── */
+            .container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 3rem 2rem;
+            }
+
+            /* ── Alerts ── */
+            .alert {
+                padding: 0.875rem 1.25rem;
+                margin-bottom: 1.5rem;
+                border-radius: 10px;
+                font-weight: 500;
+                font-size: 0.9rem;
+                border-left: 4px solid;
+            }
+
+            .alert-success {
+                background: #ecfdf5;
+                border-color: var(--success);
+                color: #065f46;
+            }
+
+            .alert-error {
+                background: #fef2f2;
+                border-color: var(--error);
+                color: #991b1b;
+            }
+
+            /* ── Forms ── */
+            .form-container {
+                max-width: 520px;
+                margin: 2rem auto;
+                background: var(--bg-card);
+                padding: 2.75rem;
+                border-radius: 16px;
+                box-shadow: 0 8px 40px rgba(16, 110, 190, 0.12);
+                border: 1px solid var(--border);
+            }
+
+            .form-title {
+                font-size: 1.75rem;
+                margin-bottom: 1.75rem;
+                font-weight: 700;
+                color: var(--primary);
+            }
+
+            .form-group {
+                margin-bottom: 1.5rem;
+            }
+
+            .form-label {
+                display: block;
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+                color: var(--text-primary);
+                font-size: 0.9rem;
+            }
+
+            .form-control {
+                width: 100%;
+                padding: 0.8rem 1.1rem;
+                background: var(--bg-elevated);
+                border: 1.5px solid var(--border);
+                border-radius: 10px;
+                color: var(--text-primary);
+                font-size: 0.95rem;
+                transition: all 0.25s ease;
+            }
+
+            .form-control:focus {
+                outline: none;
+                border-color: var(--primary);
+                background: #ffffff;
+                box-shadow: 0 0 0 3px var(--primary-light);
+            }
+
+            .form-control::placeholder {
+                color: var(--text-muted);
+            }
+
+            textarea.form-control {
+                resize: vertical;
+                min-height: 120px;
+            }
+
+            .checkbox-group {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
+            .checkbox-group input[type="checkbox"] {
+                width: 18px;
+                height: 18px;
+                cursor: pointer;
+                accent-color: var(--primary);
+            }
+
+            /* ── Buttons ── */
+            .btn {
+                padding: 0.8rem 1.75rem;
+                border: none;
+                border-radius: 10px;
+                font-size: 0.95rem;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.25s ease;
+                display: inline-block;
+                text-decoration: none;
+                text-align: center;
+            }
+
+            .btn-primary {
+                background: var(--primary);
+                color: #ffffff;
+                width: 100%;
+                box-shadow: 0 4px 14px rgba(16, 110, 190, 0.3);
+            }
+
+            .btn-primary:hover {
+                background: var(--primary-dark);
+                transform: translateY(-1px);
+                box-shadow: 0 6px 20px rgba(16, 110, 190, 0.4);
+            }
+
+            .btn-secondary {
+                background: var(--bg-elevated);
+                color: var(--text-primary);
+                border: 1.5px solid var(--border);
+            }
+
+            .btn-secondary:hover {
+                background: var(--primary-light);
+                border-color: var(--primary);
+                color: var(--primary);
+            }
+
+            .btn-accent {
+                background: var(--accent);
+                color: var(--primary-dark);
+                font-weight: 700;
+                box-shadow: 0 4px 14px rgba(15, 252, 190, 0.35);
+            }
+
+            .btn-accent:hover {
+                background: var(--accent-dark);
+                transform: translateY(-1px);
+                box-shadow: 0 6px 20px rgba(15, 252, 190, 0.45);
+            }
+
+            .form-footer {
+                margin-top: 1.75rem;
+                text-align: center;
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+            }
+
+            .form-footer a {
+                color: var(--primary);
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+            .form-footer a:hover {
+                color: var(--primary-dark);
+                text-decoration: underline;
+            }
+
+            /* ── Cards ── */
+            .card {
+                background: var(--bg-card);
+                border-radius: 14px;
+                overflow: hidden;
+                border: 1px solid var(--border);
+                transition: all 0.25s ease;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            }
+
+            .card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 12px 32px rgba(16, 110, 190, 0.13);
+                border-color: var(--primary);
+            }
+
+            .card-img {
+                width: 100%;
+                height: 200px;
+                background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg-elevated) 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 3rem;
+                font-weight: 800;
+                color: var(--primary);
+                letter-spacing: -0.02em;
+            }
+
+            .card-body {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .card-title {
+                font-size: 1.05rem;
+                font-weight: 700;
+                margin-bottom: 0.5rem;
+                color: var(--text-primary);
+            }
+
+            .card-text {
+                color: var(--text-secondary);
+                font-size: 0.875rem;
+                line-height: 1.55;
+            }
+
+            /* ── Price badge ── */
+            .price-badge {
+                display: inline-block;
+                font-size: 1.1rem;
+                font-weight: 800;
+                color: var(--primary);
+                margin-bottom: 0.5rem;
+            }
+
+            /* ── Section headers ── */
+            .section-header {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                margin-bottom: 1.75rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--text-primary);
+                text-transform: uppercase;
+                letter-spacing: 0.06em;
+            }
+
+            .section-header .section-line {
+                flex: 1;
+                height: 2px;
+                background: linear-gradient(90deg, var(--border), transparent);
+                border-radius: 2px;
+            }
+
+            /* ── Grids ── */
+            .grid-2 {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.75rem;
+            }
+
+            .grid-3 {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.75rem;
+            }
+
+            .grid-4 {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.75rem;
+            }
+
+            /* ── Footer ── */
+            .footer {
+                background: var(--text-primary);
+                padding: 2.5rem 0;
+                margin-top: 5rem;
+            }
+
+            .footer-container {
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 0 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1.5rem;
+            }
+
+            .footer-brand {
+                font-size: 1.35rem;
+                font-weight: 800;
+                color: #ffffff;
+                letter-spacing: -0.03em;
+            }
+
+            .footer-brand span {
+                color: var(--accent);
+            }
+
+            .footer p {
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 0.8rem;
+            }
+
+            /* ── Scrollbar ── */
+            ::-webkit-scrollbar { width: 8px; }
+            ::-webkit-scrollbar-track { background: var(--bg-elevated); }
+            ::-webkit-scrollbar-thumb {
+                background: var(--primary);
+                border-radius: 4px;
+            }
+            ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
+
+            /* ── Responsive ── */
+            @media (max-width: 1200px) {
+                .grid-4 { grid-template-columns: repeat(3, 1fr); }
+            }
+
+            @media (max-width: 768px) {
+                .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); }
+                .navbar-container { flex-wrap: wrap; gap: 1rem; }
+                .footer-container { flex-direction: column; text-align: center; }
+            }
+
+            @media (max-width: 480px) {
+                .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+                .form-container { padding: 1.75rem 1.25rem; }
+            }
+        </style>
         {% endblock %}
 
         {% block javascripts %}
@@ -12,6 +510,52 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <header class="header">
+            <nav class="navbar">
+                <div class="navbar-container">
+                    <a href="{{ path('app_home') }}" class="navbar-brand">Co<span>meat</span></a>
+
+                    <ul class="navbar-menu">
+                        <li><a href="{{ path('app_home') }}" class="navbar-link">Accueil</a></li>
+                        <li><a href="{{ path('app_categories') }}" class="navbar-link">Catégories</a></li>
+                    </ul>
+
+                    <div class="navbar-actions">
+                        {% if app.user %}
+                            <span style="color: var(--text-secondary); font-size: 0.875rem;">Bonjour, {{ app.user.firstName }}</span>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('app_category_index') }}" class="navbar-link">Administration</a>
+                            {% endif %}
+                            <a href="{{ path('app_logout') }}" class="btn-nav-cta">Déconnexion</a>
+                        {% else %}
+                            <a href="{{ path('app_login') }}" class="navbar-link">Connexion</a>
+                            <a href="{{ path('app_register') }}" class="btn-nav-cta">Créer un compte</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            {% block hero %}{% endblock %}
+
+            <div class="container">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endfor %}
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-error">{{ message }}</div>
+                {% endfor %}
+
+                {% block body %}{% endblock %}
+            </div>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-container">
+                <div class="footer-brand">Co<span>meat</span></div>
+                <p>&copy; {{ "now"|date("Y") }} Comeat. Tous droits réservés.</p>
+            </div>
+        </footer>
     </body>
 </html>

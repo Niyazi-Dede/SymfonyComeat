@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Toutes les catégories - Comeat{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .category-card {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .category-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .category-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .category-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .category-description {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+
+        .empty-state-text {
+            color: #666;
+            font-size: 1rem;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1 class="page-title">Toutes les catégories</h1>
+        <p class="page-subtitle">Explorez notre large sélection de produits par catégorie</p>
+    </div>
+
+    {% if categories|length > 0 %}
+        <div class="grid-4">
+            {% for category in categories %}
+                <a href="{{ path('app_category_show', {id: category.id}) }}" class="category-card">
+                    <div class="category-icon">
+                        {{ category.name|slice(0, 1)|upper }}
+                    </div>
+                    <div>
+                        <h3 class="category-name">{{ category.name }}</h3>
+                        {% if category.description %}
+                            <p class="category-description">{{ category.description|slice(0, 100) }}{% if category.description|length > 100 %}...{% endif %}</p>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-state-icon">📦</div>
+            <h2 class="empty-state-title">Aucune catégorie disponible</h2>
+            <p class="empty-state-text">Les catégories seront bientôt disponibles</p>
+        </div>
+    {% endif %}
+{% endblock %}
