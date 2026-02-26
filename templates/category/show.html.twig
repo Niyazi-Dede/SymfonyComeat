@@ -23,18 +23,20 @@
         }
 
         .detail-card {
-            background: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 0;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(62, 44, 35, 0.05);
             margin-bottom: 2rem;
+            overflow: hidden;
         }
 
         .detail-row {
             display: grid;
             grid-template-columns: 200px 1fr;
-            padding: 1rem 0;
-            border-bottom: 1px solid #eee;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
         }
 
         .detail-row:last-child {
@@ -43,21 +45,32 @@
 
         .detail-label {
             font-weight: 600;
-            color: #1a1a1a;
+            color: var(--text-primary);
+            font-size: 0.9rem;
         }
 
         .detail-value {
-            color: #666;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
         .badge-id {
             display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 12px;
-            font-size: 0.875rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 100px;
+            font-size: 0.8rem;
             font-weight: 600;
-            background-color: #e9ecef;
-            color: #495057;
+            background-color: var(--bg-elevated);
+            color: var(--text-muted);
+        }
+
+        .code-slug {
+            background: var(--bg-elevated);
+            color: var(--text-secondary);
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.85rem;
         }
     </style>
 {% endblock %}
@@ -65,11 +78,11 @@
 {% block body %}
     <div class="detail-container">
         <div style="margin-bottom: 1.5rem;">
-            <a href="{{ path('app_category_index') }}" style="color: #0066c0; text-decoration: none;">&larr; Retour à la liste</a>
+            <a href="{{ path('app_category_index') }}" style="color: var(--primary); text-decoration: none; font-size: 0.9rem; font-weight: 500;">&larr; Retour à la liste</a>
         </div>
 
         <div class="detail-header">
-            <h1 style="font-size: 2rem; font-weight: 700; color: #1a1a1a;">{{ category.name }}</h1>
+            <h1 style="font-size: 2rem; font-weight: 700; color: var(--text-primary);">{{ category.name }}</h1>
             <div class="detail-actions">
                 <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-primary" style="width: auto;">Éditer</a>
             </div>
@@ -93,7 +106,7 @@
 
             <div class="detail-row">
                 <div class="detail-label">Slug</div>
-                <div class="detail-value"><code style="background: #f8f9fa; padding: 0.25rem 0.5rem; border-radius: 4px;">{{ category.slug }}</code></div>
+                <div class="detail-value"><code class="code-slug">{{ category.slug }}</code></div>
             </div>
 
             <div class="detail-row">

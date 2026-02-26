@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil - Comeat{% endblock %}
+
+{% block body %}
+    <div style="max-width: 680px; margin: 0 auto;">
+
+        <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 0.5rem;">
+            Mon profil
+        </h1>
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 2rem;">
+            Gérez vos informations personnelles et de livraison.
+        </p>
+
+        {# Email (lecture seule) #}
+        <div style="background: var(--bg-elevated); border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; border: 1px solid var(--border);">
+            <div style="width: 40px; height: 40px; background: var(--olive-light); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--olive); flex-shrink: 0;">
+                {{ app.user.firstName|slice(0,1)|upper }}
+            </div>
+            <div>
+                <div style="font-weight: 700; color: var(--text-primary); font-size: 0.95rem;">{{ app.user.email }}</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 0.1rem;">Adresse e-mail (non modifiable ici)</div>
+            </div>
+        </div>
+
+        {{ form_start(form, {attr: {style: 'background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border); overflow: hidden;'}}) }}
+
+            <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); background: var(--bg-elevated);">
+                <h2 style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary);">Identité</h2>
+            </div>
+
+            <div style="padding: 1.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    {{ form_label(form.firstName, null, {label_attr: {class: 'form-label'}}) }}
+                    {{ form_widget(form.firstName) }}
+                    {{ form_errors(form.firstName) }}
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    {{ form_label(form.lastName, null, {label_attr: {class: 'form-label'}}) }}
+                    {{ form_widget(form.lastName) }}
+                    {{ form_errors(form.lastName) }}
+                </div>
+            </div>
+
+            <div style="padding: 0 1.5rem 0; border-top: 1px solid var(--border); padding-top: 0;">
+                <div style="padding: 1.25rem 0; border-bottom: 1px solid var(--border); background: var(--bg-elevated); margin: 0 -1.5rem; padding-left: 1.5rem; padding-right: 1.5rem;">
+                    <h2 style="font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary);">Adresse de livraison</h2>
+                </div>
+            </div>
+
+            <div style="padding: 1.75rem; display: grid; gap: 1.25rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    {{ form_label(form.address, null, {label_attr: {class: 'form-label'}}) }}
+                    {{ form_widget(form.address) }}
+                </div>
+                <div style="display: grid; grid-template-columns: 140px 1fr 1fr; gap: 1.25rem;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        {{ form_label(form.postalCode, null, {label_attr: {class: 'form-label'}}) }}
+                        {{ form_widget(form.postalCode) }}
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        {{ form_label(form.city, null, {label_attr: {class: 'form-label'}}) }}
+                        {{ form_widget(form.city) }}
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        {{ form_label(form.phone, null, {label_attr: {class: 'form-label'}}) }}
+                        {{ form_widget(form.phone) }}
+                    </div>
+                </div>
+            </div>
+
+            <div style="padding: 1.25rem 1.75rem; border-top: 1px solid var(--border); background: var(--bg-elevated);">
+                <button type="submit" class="btn btn-primary" style="width: auto; padding: 0.75rem 2rem;">
+                    Enregistrer les modifications
+                </button>
+            </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Validation de commande - Comeat{% endblock %}
+
+{% block body %}
+    <nav style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 2rem;">
+        <a href="{{ path('app_home') }}" style="color: var(--primary); text-decoration: none;">Accueil</a>
+        <span>/</span>
+        <a href="{{ path('app_cart') }}" style="color: var(--primary); text-decoration: none;">Panier</a>
+        <span>/</span>
+        <span>Validation</span>
+    </nav>
+
+    <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 2rem;">
+        Validation de commande
+    </h1>
+
+    <form id="checkoutForm" action="{{ path('app_checkout_confirm') }}" method="POST">
+        <input type="hidden" name="_token" value="{{ csrf_token('checkout_confirm') }}">
+        <input type="hidden" name="save_profile" id="saveProfileInput" value="0">
+
+        <div style="display: grid; grid-template-columns: 1fr 380px; gap: 2rem; align-items: start;">
+
+            {# Infos de livraison (éditables) #}
+            <div style="background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border); overflow: hidden;">
+                <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); background: var(--bg-elevated); display: flex; align-items: center; gap: 0.75rem;">
+                    <div style="width: 32px; height: 32px; background: var(--olive-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--olive);">📦</div>
+                    <h2 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.06em;">Adresse de livraison</h2>
+                </div>
+
+                <div style="padding: 1.75rem;">
+
+                    {% if user.address %}
+                        <div style="background: var(--olive-light); border: 1px solid var(--olive); border-radius: 10px; padding: 0.75rem 1rem; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--olive-dark); display: flex; align-items: center; gap: 0.5rem;">
+                            <span>ℹ️</span>
+                            Informations pré-remplies depuis votre profil — vérifiez qu'elles sont correctes.
+                        </div>
+                    {% endif %}
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+                        <div>
+                            <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em;">Prénom</label>
+                            <input type="text" value="{{ user.firstName }}" readonly style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-elevated); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text-muted); font-size: 0.95rem; cursor: default;">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em;">Nom</label>
+                            <input type="text" value="{{ user.lastName }}" readonly style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-elevated); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text-muted); font-size: 0.95rem; cursor: default;">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 1.25rem;">
+                        <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em;">Email</label>
+                        <input type="email" value="{{ user.email }}" readonly style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-elevated); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text-muted); font-size: 0.95rem; cursor: default;">
+                    </div>
+
+                    <div style="margin-bottom: 1.25rem;">
+                        <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em;">
+                            Adresse <span style="color: var(--error);">*</span>
+                        </label>
+                        <input type="text" name="address" value="{{ user.address ?? '' }}"
+                               placeholder="12 rue de la Paix"
+                               required
+                               style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-secondary); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 0.95rem; transition: border-color 0.2s;"
+                               onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 140px 1fr 1fr; gap: 1.25rem;">
+                        <div>
+                            <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em;">Code postal</label>
+                            <input type="text" name="postalCode" value="{{ user.postalCode ?? '' }}"
+                                   placeholder="75001"
+                                   style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-secondary); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 0.95rem; transition: border-color 0.2s;"
+                                   onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em;">Ville</label>
+                            <input type="text" name="city" value="{{ user.city ?? '' }}"
+                                   placeholder="Paris"
+                                   style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-secondary); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 0.95rem; transition: border-color 0.2s;"
+                                   onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 0.4rem; text-transform: uppercase; letter-spacing: 0.04em;">Téléphone</label>
+                            <input type="text" name="phone" value="{{ user.phone ?? '' }}"
+                                   placeholder="06 00 00 00 00"
+                                   style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-secondary); border: 1.5px solid var(--border); border-radius: 10px; color: var(--text-primary); font-size: 0.95rem; transition: border-color 0.2s;"
+                                   onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Récapitulatif + bouton #}
+            <div style="position: sticky; top: 90px;">
+                <div style="background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 1rem;">
+                    <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); background: var(--bg-elevated); display: flex; align-items: center; gap: 0.75rem;">
+                        <div style="width: 32px; height: 32px; background: var(--olive-light); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--olive);">🧾</div>
+                        <h2 style="font-size: 1rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.06em;">Votre commande</h2>
+                    </div>
+                    <div style="padding: 1.25rem 1.5rem;">
+                        {% for item in cart %}
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                <div style="flex: 1;">
+                                    <div style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary);">{{ item.product.name }}</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">{{ item.product.price }} € × {{ item.quantity }}</div>
+                                </div>
+                                <div style="font-weight: 700; color: var(--text-primary); font-size: 0.9rem;">{{ item.subtotal|number_format(2, ',', ' ') }} €</div>
+                            </div>
+                            {% if not loop.last %}<hr style="border: none; border-top: 1px solid var(--border); margin: 0.75rem 0;">{% endif %}
+                        {% endfor %}
+                        <div style="border-top: 2px solid var(--border); margin-top: 1rem; padding-top: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 1rem; font-weight: 700; color: var(--text-primary);">Total TTC</span>
+                            <span style="font-size: 1.6rem; font-weight: 800; color: var(--primary);">{{ total|number_format(2, ',', ' ') }} €</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" onclick="openSaveModal()"
+                        style="width: 100%; padding: 1rem; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; margin-bottom: 0.75rem;"
+                        onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">
+                    Passer la commande
+                </button>
+                <p style="text-align: center; font-size: 0.75rem; color: var(--text-muted);">Paiement sécurisé par Stripe</p>
+                <a href="{{ path('app_cart') }}" style="display: block; text-align: center; font-size: 0.875rem; color: var(--text-secondary); text-decoration: none; margin-top: 0.5rem;">
+                    &larr; Modifier le panier
+                </a>
+            </div>
+        </div>
+    </form>
+
+    {# Modal — sauvegarder sur le profil ? #}
+    <div id="saveProfileModal" style="display: none; position: fixed; inset: 0; background: rgba(62, 44, 35, 0.55); z-index: 500; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+        <div style="background: var(--bg-card); border-radius: 16px; padding: 2rem; max-width: 420px; width: 90%; box-shadow: 0 24px 60px rgba(0,0,0,0.2);">
+            <div style="font-size: 2rem; margin-bottom: 1rem; text-align: center;">💾</div>
+            <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--text-primary); text-align: center; margin-bottom: 0.75rem;">
+                Sauvegarder les informations ?
+            </h3>
+            <p style="font-size: 0.9rem; color: var(--text-secondary); text-align: center; line-height: 1.6; margin-bottom: 1.75rem;">
+                Souhaitez-vous mettre à jour votre profil avec ces informations de livraison pour vos prochaines commandes ?
+            </p>
+            <div style="display: flex; gap: 0.75rem;">
+                <button onclick="submitCheckout(true)"
+                        style="flex: 1; padding: 0.875rem; background: var(--primary); color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background 0.2s;"
+                        onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">
+                    Oui, sauvegarder
+                </button>
+                <button onclick="submitCheckout(false)"
+                        style="flex: 1; padding: 0.875rem; background: var(--bg-elevated); color: var(--text-primary); border: 1.5px solid var(--border); border-radius: 10px; font-weight: 600; font-size: 0.95rem; cursor: pointer; transition: all 0.2s;"
+                        onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='var(--bg-elevated)'">
+                    Non, continuer
+                </button>
+            </div>
+            <button onclick="closeSaveModal()" style="display: block; margin: 1rem auto 0; background: none; border: none; color: var(--text-muted); font-size: 0.8rem; cursor: pointer;">Annuler</button>
+        </div>
+    </div>
+
+    <script>
+        function openSaveModal() {
+            const modal = document.getElementById('saveProfileModal');
+            modal.style.display = 'flex';
+        }
+        function closeSaveModal() {
+            document.getElementById('saveProfileModal').style.display = 'none';
+        }
+        function submitCheckout(save) {
+            document.getElementById('saveProfileInput').value = save ? '1' : '0';
+            document.getElementById('checkoutForm').submit();
+        }
+        document.getElementById('saveProfileModal').addEventListener('click', function(e) {
+            if (e.target === this) closeSaveModal();
+        });
+    </script>
+{% endblock %}

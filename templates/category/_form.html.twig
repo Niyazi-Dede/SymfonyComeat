@@ -9,7 +9,7 @@
         {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4, 'placeholder': 'Description de la catégorie...'}}) }}
         {{ form_errors(form.description) }}
-        <small style="display: block; margin-top: 0.25rem; color: #666; font-size: 0.875rem;">Optionnel</small>
+        <small style="display: block; margin-top: 0.25rem; color: var(--text-muted); font-size: 0.875rem;">Optionnel</small>
     </div>
 
     <button type="submit" class="btn btn-primary">{{ button_label|default('Créer') }}</button>

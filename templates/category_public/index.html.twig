@@ -12,22 +12,23 @@
         .page-title {
             font-size: 2rem;
             font-weight: 700;
-            color: #1a1a1a;
+            color: var(--text-primary);
             margin-bottom: 0.5rem;
         }
 
         .page-subtitle {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 1.1rem;
         }
 
         .category-card {
-            background: white;
-            border-radius: 8px;
+            background: var(--bg-card);
+            border-radius: 14px;
             padding: 2rem;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 8px rgba(62, 44, 35, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
@@ -39,13 +40,14 @@
 
         .category-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 32px rgba(62, 44, 35, 0.12);
+            border-color: var(--primary);
         }
 
         .category-icon {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--olive) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -58,11 +60,11 @@
         .category-name {
             font-size: 1.25rem;
             font-weight: 600;
-            color: #1a1a1a;
+            color: var(--text-primary);
         }
 
         .category-description {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 0.95rem;
             line-height: 1.5;
         }
@@ -70,9 +72,9 @@
         .empty-state {
             text-align: center;
             padding: 4rem 2rem;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: var(--bg-card);
+            border-radius: 14px;
+            border: 1px dashed var(--border);
         }
 
         .empty-state-icon {
@@ -85,11 +87,11 @@
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color: #1a1a1a;
+            color: var(--text-primary);
         }
 
         .empty-state-text {
-            color: #666;
+            color: var(--text-secondary);
             font-size: 1rem;
         }
     </style>

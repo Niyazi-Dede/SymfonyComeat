@@ -23,6 +23,9 @@ class Order
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $total = null;
 
+    #[ORM\Column(length: 50, options: ['default' => 'pending'])]
+    private string $status = 'pending';
+
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -68,6 +71,18 @@ class Order
     public function setTotal(string $total): static
     {
         $this->total = $total;
+
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }

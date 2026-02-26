@@ -11,19 +11,46 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName')
-            ->add('lastName')
+            ->add('firstName', null, [
+                'label' => 'Prénom',
+                'constraints' => [
+                    new NotBlank(message: 'Le prénom est obligatoire.'),
+                    new Regex(
+                        pattern: '/^[a-zA-ZÀ-ÿ\s\-\']+$/u',
+                        message: 'Le prénom ne peut contenir que des lettres.'
+                    ),
+                ],
+                'attr' => [
+                    'pattern' => "[a-zA-ZÀ-ÿ\\s\\-']+",
+                    'title'   => 'Lettres uniquement',
+                ],
+            ])
+            ->add('lastName', null, [
+                'label' => 'Nom',
+                'constraints' => [
+                    new NotBlank(message: 'Le nom est obligatoire.'),
+                    new Regex(
+                        pattern: '/^[a-zA-ZÀ-ÿ\s\-\']+$/u',
+                        message: 'Le nom ne peut contenir que des lettres.'
+                    ),
+                ],
+                'attr' => [
+                    'pattern' => "[a-zA-ZÀ-ÿ\\s\\-']+",
+                    'title'   => 'Lettres uniquement',
+                ],
+            ])
             ->add('email')
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
-                    new IsTrue(message: 'You should agree to our terms.'),
+                    new IsTrue(message: 'Vous devez accepter les conditions d\'utilisation.'),
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
@@ -32,11 +59,11 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
-                    new NotBlank(message: 'Please enter a password'),
+                    new NotBlank(message: 'Veuillez entrer un mot de passe.'),
                     new Length(
                         min: 6,
                         max: 4096,
-                        minMessage: 'Your password should be at least {{ limit }} characters'
+                        minMessage: 'Le mot de passe doit contenir au moins {{ limit }} caractères.'
                     ),
                 ],
             ])
