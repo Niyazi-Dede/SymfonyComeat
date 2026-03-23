@@ -27,7 +27,7 @@
             padding: 2rem;
             text-align: center;
             border: 1px solid var(--border);
-            box-shadow: 0 2px 8px rgba(62, 44, 35, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
             cursor: pointer;
             text-decoration: none;
@@ -40,19 +40,19 @@
 
         .category-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(62, 44, 35, 0.12);
+            box-shadow: 0 12px 32px rgba(170, 255, 0, 0.06);
             border-color: var(--primary);
         }
 
         .category-icon {
             width: 80px;
             height: 80px;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--olive) 100%);
+            background: var(--accent);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--btn-on-accent);
             font-size: 2rem;
             font-weight: 700;
         }
@@ -104,7 +104,7 @@
     </div>
 
     {% if categories|length > 0 %}
-        <div class="grid-4">
+        <div class="grid-4 fade-up">
             {% for category in categories %}
                 <a href="{{ path('app_category_show', {id: category.id}) }}" class="category-card">
                     <div class="category-icon">

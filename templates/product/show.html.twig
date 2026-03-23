@@ -18,7 +18,7 @@
         <span>{{ product.name }}</span>
     </nav>
 
-    <div style="display: grid; grid-template-columns: 380px 1fr; gap: 3rem; align-items: start;">
+    <div class="fade-up" style="display: grid; grid-template-columns: 380px 1fr; gap: 3rem; align-items: start;">
 
         {# Visuel produit #}
         <div style="
@@ -71,11 +71,11 @@
                 align-items: baseline;
                 gap: 0.3rem;
                 background: var(--primary);
-                color: #fff;
+                color: var(--btn-on-accent);
                 padding: 0.6rem 1.5rem;
                 border-radius: 12px;
                 margin-bottom: 1.75rem;
-                box-shadow: 0 4px 14px rgba(192, 57, 43, 0.3);
+                box-shadow: 0 0 20px rgba(170, 255, 0, 0.2);
             ">
                 <span style="font-size: 2rem; font-weight: 800; line-height: 1;">{{ product.price }}</span>
                 <span style="font-size: 1.1rem; font-weight: 600; opacity: 0.85;">€</span>
@@ -112,7 +112,7 @@
                 {% elseif product.stock > 0 %}
                     <span style="
                         display: inline-flex; align-items: center; gap: 0.4rem;
-                        color: #92400e; background: #fffbeb;
+                        color: #FBBF24; background: rgba(245, 158, 11, 0.12);
                         padding: 0.4rem 1rem; border-radius: 8px;
                         font-size: 0.875rem; font-weight: 600;
                     ">

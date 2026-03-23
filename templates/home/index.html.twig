@@ -19,7 +19,8 @@
 
     .cat-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 22px 52px rgba(62, 44, 35, 0.22);
+        box-shadow: 0 0 40px rgba(170, 255, 0, 0.08);
+        border-color: #AAFF00;
     }
 
     /* Grosse lettre décorative en arrière-plan */
@@ -72,29 +73,29 @@
         margin: 0;
     }
 
-    /* ── Thèmes couleurs (palette artisanale) ── */
-    .cat-t1 { background: #3E2C23; color: #FAF9F6; }
-    .cat-t1 .cat-card-letter { color: #D7C2A3; }
-    .cat-t1 .cat-card-icon { background: rgba(215, 194, 163, 0.2); color: #D7C2A3; }
+    /* ── Thèmes couleurs (dark) ── */
+    .cat-t1 { background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border); }
+    .cat-t1 .cat-card-letter { color: var(--accent); }
+    .cat-t1 .cat-card-icon { background: rgba(170, 255, 0, 0.12); color: var(--accent); }
 
-    .cat-t2 { background: #C0392B; color: #FAF9F6; }
-    .cat-t2 .cat-card-letter { color: #FAF9F6; }
-    .cat-t2 .cat-card-icon { background: rgba(255, 255, 255, 0.18); color: #fff; }
+    .cat-t2 { background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border); }
+    .cat-t2 .cat-card-letter { color: var(--text-primary); }
+    .cat-t2 .cat-card-icon { background: var(--primary-light); color: var(--text-primary); }
 
-    .cat-t3 { background: #D7C2A3; color: #3E2C23; }
-    .cat-t3 .cat-card-letter { color: #3E2C23; }
-    .cat-t3 .cat-card-icon { background: rgba(62, 44, 35, 0.12); color: #3E2C23; }
+    .cat-t3 { background: var(--bg-elevated); color: var(--text-primary); border: 1px solid var(--border); }
+    .cat-t3 .cat-card-letter { color: var(--text-muted); }
+    .cat-t3 .cat-card-icon { background: rgba(170, 255, 0, 0.08); color: var(--accent); }
 
-    .cat-t4 { background: #556B2F; color: #FAF9F6; }
-    .cat-t4 .cat-card-letter { color: #EEF2E6; }
-    .cat-t4 .cat-card-icon { background: rgba(255, 255, 255, 0.18); color: #fff; }
+    .cat-t4 { background: var(--bg-secondary); color: var(--text-primary); border: 1px solid var(--border); }
+    .cat-t4 .cat-card-letter { color: var(--accent); }
+    .cat-t4 .cat-card-icon { background: rgba(170, 255, 0, 0.15); color: var(--accent); }
 </style>
 {% endblock %}
 
 {% block hero %}
 <section style="
-    background: linear-gradient(135deg, #2C1810 0%, #3E2C23 60%, #5C3D2E 100%);
-    padding: 5rem 2rem;
+    background: var(--bg-main);
+    padding: 6rem 2rem 7rem;
     position: relative;
     overflow: hidden;
 ">
@@ -103,23 +104,23 @@
         position: absolute; top: -60px; right: -60px;
         width: 320px; height: 320px;
         border-radius: 50%;
-        background: rgba(215, 194, 163, 0.10);
+        background: rgba(170, 255, 0, 0.04);
         pointer-events: none;
     "></div>
     <div style="
         position: absolute; bottom: -80px; left: 10%;
         width: 200px; height: 200px;
         border-radius: 50%;
-        background: rgba(215, 194, 163, 0.07);
+        background: rgba(170, 255, 0, 0.03);
         pointer-events: none;
     "></div>
 
     <div style="max-width: 1400px; margin: 0 auto; position: relative; z-index: 1;">
-        <div style="max-width: 640px;">
+        <div style="max-width: 720px;">
             <span style="
                 display: inline-block;
-                background: rgba(85, 107, 47, 0.25);
-                color: #A8C36A;
+                background: var(--primary-light);
+                color: var(--accent);
                 font-size: 0.78rem;
                 font-weight: 700;
                 letter-spacing: 0.1em;
@@ -127,27 +128,29 @@
                 padding: 0.35rem 0.9rem;
                 border-radius: 100px;
                 margin-bottom: 1.25rem;
-                border: 1px solid rgba(85, 107, 47, 0.4);
+                border: 1px solid var(--accent-glow);
             ">Marketplace alimentaire</span>
 
             <h1 style="
-                font-size: clamp(2rem, 5vw, 3.25rem);
+                font-family: 'Syne', sans-serif;
+                font-size: clamp(2.5rem, 7vw, 5rem);
                 font-weight: 800;
-                color: #ffffff;
-                line-height: 1.15;
-                margin-bottom: 1.25rem;
+                color: var(--text-primary);
+                line-height: 1.1;
+                margin-bottom: 1.5rem;
                 letter-spacing: -0.03em;
             ">
                 Découvrez les<br>
-                meilleures <span style="color: #D7C2A3;">saveurs</span>
+                meilleures <span style="color: var(--accent);">saveurs</span>
             </h1>
 
             <p style="
-                font-size: 1.05rem;
-                color: rgba(255,255,255,0.7);
-                margin-bottom: 2rem;
+                font-size: 1.1rem;
+                color: var(--text-secondary);
+                margin-bottom: 2.5rem;
                 max-width: 480px;
-                line-height: 1.7;
+                line-height: 1.8;
+                font-weight: 300;
             ">
                 Des produits soigneusement sélectionnés, livrés directement chez vous. Qualité, fraîcheur et simplicité.
             </p>
@@ -162,7 +165,7 @@
 
 {% block body %}
     {% if categories|length > 0 %}
-        <div style="margin-bottom: 3.5rem;">
+        <div class="fade-up" style="margin-bottom: 3.5rem;">
             <div class="section-header">
                 <h2>Catégories</h2>
                 <div class="section-line"></div>
@@ -193,7 +196,7 @@
         </div>
     {% endif %}
 
-    <div>
+    <div class="fade-up">
         <div class="section-header">
             <h2>Derniers produits</h2>
             <div class="section-line"></div>

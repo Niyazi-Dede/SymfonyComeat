@@ -5,7 +5,15 @@
       "Bash(php bin/console doctrine:migrations:migrate:*)",
       "Bash(php bin/console:*)",
       "WebFetch(domain:www.nouvy.fr)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(find /c/Users/dedet/Documents/GitHub/SymfonyComeat -path */src/Service -o -path */config/routes* -o -path */config/packages/security.yaml)",
+      "Bash(ls:*)",
+      "Bash(git:*)",
+      "Bash(grep -r \"Route\\\\|path\" /c/Users/dedet/Documents/GitHub/SymfonyComeat/src/Controller/*.php)",
+      "WebFetch(domain:packagist.org)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(composer require:*)"
     ]
   }
 }

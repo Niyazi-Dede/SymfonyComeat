@@ -1,4 +1,4 @@
-/* Styles globaux Comeat — palette artisanale */
+/* Styles globaux Comeat */
 body {
-    background-color: #FAF9F6;
+    background-color: var(--bg-main);
 }
